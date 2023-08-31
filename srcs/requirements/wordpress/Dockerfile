@@ -1,13 +1,27 @@
-FROM debian:buster
+FROM debian:11
 
-RUN apt update && apt upgrade -y \
-&& apt install wget -y && apt install unzip -y \
-&& apt install php php-fpm php-mysql -y
+COPY tools/script.sh /etc
+
+RUN apt update
+RUN apt upgrade
+RUN apt install curl -y
+RUN apt install php \
+    php-fpm \
+    php-mysql -y
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+RUN chmod +x /etc/script.sh
+
+RUN mkdir -p /var/www/wordpress
+RUN wp core download --path=/var/www/wordpress --allow-root
+
+COPY  conf/www.conf /etc/php/7.4/fpm/pool.d/
+
+RUN mkdir -p /run/php
 
 
-RUN mkdir -p var/www/
-
-RUN wget https://wordpress.org/latest.zip && unzip latest.zip \
-&& rm latest.zip && cp wordpress/wp-config-sample.php wordpress/wp-config.php && mv wordpress /var/www/
-
-CMD [ "sleep" , "infinity"]
+CMD [ "/etc/script.sh"]
+# ENTRYPOINT [ "sleep infinity" ]

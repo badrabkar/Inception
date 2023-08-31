@@ -1,55 +1,66 @@
-version: "3.9"
+version: "3.5"
 
 services:
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    image: nginx:copy
+    ports:
+     - 443:443
+    depends_on:
+      - mariadb
+      - wordpress
+    volumes:
+     - wordpress:/var/www/wordpress
+    networks:
+      - Inception
+    env_file:
+      - .env
+    restart: always
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    image: wordpress:copy
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress:/var/www/wordpress
+    env_file:
+      - .env
+    networks:
+      - Inception
+    restart: always
+    expose:
+      - 9000
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
-    image: mariadb
+    image: mariadb:copy
     volumes:
       - mariadb:/var/lib/mysql
     env_file:
       - .env
+    networks:
+      - Inception
     restart: always
     expose:
-      - "3306"
-      
-  nginx:
-    container_name: nginx
-    build: requirements/nginx
-    image: nginx
-    volumes:
-      - wordpress:/var/www/wordpress
-    env_file:
-      - .env
-    restart: always
-    ports:
-      - "443:443"
-
-  wordpress:
-    container_name: wordpress
-    build: requirements/wordpress
-    image: wordpress
-    volumes:
-      - wordpress:/var/www/wordpress
-    env_file:
-      - .env
-    restart: always
-    expose:
-      - "9000"
+      - 3306
 
 volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+            device: /Users/babkar/data/wordpress
+            o: bind
+            type: none
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
-      device: /Users/babkar/data/mariadb
-      o: bind
-      type: none
-  wordpress:
-    name: mariadb
-    driver: local
-    driver_opts:
-      device: /Users/babkar/data/wordpress
-      o: bind
-      type: none
-
+            device: /Users/babkar/data/mariadb
+            o: bind
+            type: none
+networks:
+  Inception:
+    name: Inception
