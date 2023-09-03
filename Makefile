@@ -1,8 +1,8 @@
 all: build up
 
 build:
-	mkdir -p /Users/babkar/data/mariadb
-	mkdir -p /Users/babkar/data/wordpress
+	mkdir -p /home/babkar/data/mariadb
+	mkdir -p /home/babkar/data/wordpress
 	docker-compose -f srcs/docker-compose.yaml build
 
 up:
@@ -14,6 +14,6 @@ clean:
 
 fclean : clean
 	@docker volume rm $(shell docker volume ls -q) 2> /dev/null || true
-	@rm -rf /Users/babkar/data/mariadb
-	@rm -rf /Users/babkar/data/wordpress
+	@rm -rf /home/babkar/data/mariadb
+	@rm -rf /home/babkar/data/wordpress
 	@docker network rm $(shell docker network ls) 2> /dev/null || true

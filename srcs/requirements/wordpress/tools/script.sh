@@ -2,11 +2,15 @@
 
 sleep 10
 
-# sed -i -e 's/listen =.*/listen = 0.0.0.0:9000/' /etc/php/7.4/fpm/pool.d/www.conf
-
 cd /var/www/wordpress
-wp config create --dbname=$MYSQL_DATABASE_NAME --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb:3306 --allow-root --skip-check
-wp core install --url=$URL --title=$TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --allow-root --skip-email
+
+wp config create --dbname=$MYSQL_DATABASE_NAME --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb --allow-root --skip-check
+
+wp core install --url=$DOMAIN_NAME --title=$TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --allow-root --skip-email
+
+wp user create $MYSQL_USER $MYSQL_USER@example.com --role=author --user_pass=$MYSQL_PASSWORD --allow-root
+
+wp theme install inspiro --allow-root --activate
 
 chown -R www-data:www-data /var/www/wordpress
 

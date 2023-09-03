@@ -13,11 +13,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=aa/ST=ad/L=ta/O=as/OU=as/CN=as/emailAddress=as"
 
 RUN mkdir -p /var/www/wordpress
-    
-COPY conf/nginx.conf /etc/nginx/conf.d/
-COPY tools/index.html /var/www/html
-COPY tools/index1.php /var/www/html
-COPY tools/index1.php /var/www/wordpress
 
 EXPOSE 443
 

@@ -24,4 +24,3 @@ RUN mkdir -p /run/php
 
 
 CMD [ "/etc/script.sh"]
-# ENTRYPOINT [ "sleep infinity" ]
