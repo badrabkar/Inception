@@ -8,7 +8,7 @@ RUN apt update && \
     apt install openssl -y && \
     mkdir -p /etc/nginx/ssl && \
     chmod +x /etc/script.sh && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
     -keyout /etc/nginx/ssl/example.key \
     -out /etc/nginx/ssl/example.crt \
     -subj "/C=aa/ST=ad/L=ta/O=as/OU=as/CN=as/emailAddress=as"
