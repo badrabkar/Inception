@@ -3,17 +3,16 @@ all: build up
 build:
 	mkdir -p /home/babkar/data/mariadb
 	mkdir -p /home/babkar/data/wordpress
-	docker-compose -f srcs/docker-compose.yaml build
+	docker-compose -f srcs/docker-compose.yaml build --no-cache
 
 up:
 	docker-compose -f srcs/docker-compose.yaml up
 
-clean:
-	@docker container rm -f $(shell docker container ls -aq) 2> /dev/null || true
-	@docker rmi $(shell docker images -aq) 2> /dev/null || true
+stop:
+	docker-compose -f srcs/docker-compose.yaml stop
 
-fclean : clean
-	@docker volume rm $(shell docker volume ls -q) 2> /dev/null || true
-	@rm -rf /home/babkar/data/mariadb
-	@rm -rf /home/babkar/data/wordpress
-	@docker network rm $(shell docker network ls) 2> /dev/null || true
+down:
+	docker-compose -f srcs/docker-compose.yaml down
+
+fclean : down
+	sudo rm -rf /home/babkar/data

@@ -8,7 +8,6 @@ services:
     ports:
      - 443:443
     depends_on:
-      - mariadb
       - wordpress
     volumes:
      - wordpress:/var/www/wordpress
@@ -30,8 +29,6 @@ services:
     networks:
       - Inception
     restart: always
-    expose:
-      - 9000
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
@@ -43,8 +40,6 @@ services:
     networks:
       - Inception
     restart: always
-    expose:
-      - 3306
 
 volumes:
   wordpress:
@@ -63,4 +58,4 @@ volumes:
             type: none
 networks:
   Inception:
-    name: Inception
+    name : Inception

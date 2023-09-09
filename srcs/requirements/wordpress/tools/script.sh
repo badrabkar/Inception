@@ -12,6 +12,4 @@ wp user create $MYSQL_USER $MYSQL_USER@example.com --role=author --user_pass=$MY
 
 wp theme install inspiro --allow-root --activate
 
-chown -R www-data:www-data /var/www/wordpress
-
 /usr/sbin/php-fpm7.4 -F
