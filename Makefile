@@ -14,5 +14,5 @@ stop:
 down:
 	docker-compose -f srcs/docker-compose.yaml down
 
-fclean : down
+fclean: down
 	sudo rm -rf /home/babkar/data
